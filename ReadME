@@ -44,7 +44,7 @@ The web-based admin dashboard is used by administrators to manage products, orde
 1. Open a new terminal and navigate to the admin dashboard directory:
    ```bash
    cd admin-dashboard
-   ```
+   ``` 
 2. Install dependencies:
    ```bash
    npm install
@@ -76,22 +76,7 @@ The mobile app for customers to browse furniture, place orders, and manage their
 
 ## 🔐 Test/Demo Credentials
 
-If you are getting an "Unauthorized" error when trying to log in, it means your database doesn't have these users yet! You have two ways to use these test credentials:
-
-**Option 1: Run the Demo Server (No Database Required)**
-If you just want to test the app quickly without a MongoDB connection, run the demo server instead of the regular server:
-```bash
-cd backend
-npm run demo
-```
-
-**Option 2: Seed your MongoDB (Recommended for full testing)**
-If you want to use your real MongoDB database, run the seed script to inject these login credentials into your database (Make sure your `.env` is configured first):
-```bash
-cd backend
-npm run seed
-npm run dev
-```
+Use the following credentials to log in and test the applications (assuming your database is seeded or you are running the `demo-server.js`):
 
 ### Admin Dashboard Access
 - **Admin**: `admin@furnshop.com` / `admin123`

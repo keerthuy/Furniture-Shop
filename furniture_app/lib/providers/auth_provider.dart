@@ -20,11 +20,18 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> _loadUser() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userData = prefs.getString('user');
-    final token = prefs.getString('token');
-    if (userData != null && token != null) {
-      _user = User.fromJson(jsonDecode(userData));
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userData = prefs.getString('user');
+      final token = prefs.getString('token');
+      if (userData != null && userData.isNotEmpty && token != null && token.isNotEmpty) {
+        _user = User.fromJson(jsonDecode(userData));
+      }
+    } catch (e) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('user');
+      await prefs.remove('token');
+    } finally {
       notifyListeners();
     }
   }

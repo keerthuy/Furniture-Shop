@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../config/theme.dart';
-import '../../providers/cart_provider.dart';
-import '../home/home_screen.dart';
-import '../cart/cart_screen.dart';
-import '../orders/order_history_screen.dart';
-import '../profile/profile_screen.dart';
+import '../config/theme.dart';
+import '../providers/cart_provider.dart';
+import 'home/home_screen.dart';
+import 'cart/cart_screen.dart';
+import 'orders/order_history_screen.dart';
+import 'profile/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
