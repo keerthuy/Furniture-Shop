@@ -19,7 +19,8 @@ class CartProvider extends ChangeNotifier {
       final res = await ApiService.get(ApiConfig.cart, auth: true);
       final data = res['data'];
       if (data != null && data['items'] != null) {
-        _items = (data['items'] as List).map((e) => CartItem.fromJson(e)).toList();
+        _items =
+            (data['items'] as List).map((e) => CartItem.fromJson(e)).toList();
       } else {
         _items = [];
       }
@@ -33,13 +34,28 @@ class CartProvider extends ChangeNotifier {
   Future<bool> addToCart(String productId, {int quantity = 1}) async {
     try {
       await ApiService.post(ApiConfig.cart, {
-        'productId': productId, 'quantity': quantity,
+        'productId': productId,
+        'quantity': quantity,
       }, auth: true);
       await fetchCart();
       return true;
     } catch (_) {
       return false;
     }
+  }
+
+  void addItem(CartItem newItem) {
+    final index = items.indexWhere(
+      (item) => item.productId == newItem.productId,
+    );
+
+    if (index >= 0) {
+      items[index].quantity += 1;
+    } else {
+      items.add(newItem);
+    }
+
+    notifyListeners();
   }
 
   Future<void> updateQuantity(String productId, int quantity) async {

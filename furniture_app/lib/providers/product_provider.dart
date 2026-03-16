@@ -27,10 +27,15 @@ class ProductProvider extends ChangeNotifier {
 
   Future<void> fetchFeatured() async {
     try {
+      print('Fetching featured from: ${ApiConfig.productsFeatured}');
       final res = await ApiService.get(ApiConfig.productsFeatured);
+      print('Featured response: $res');
       _featured = (res['data'] as List).map((e) => Product.fromJson(e)).toList();
+      print('Featured loaded: ${_featured.length} items');
       notifyListeners();
-    } catch (_) {}
+    } catch (e) {
+      print('Featured fetch error: $e');
+    }
   }
 
   Future<void> fetchCategories() async {

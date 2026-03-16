@@ -43,7 +43,7 @@ const seedData = async () => {
     await User.deleteMany();
 
     console.log('Injecting seed users...');
-    await User.insertMany(users);
+    await User.create(users);
 
     console.log('Database Seeding Completed!');
     console.log('You can now log in with the test credentials.');
