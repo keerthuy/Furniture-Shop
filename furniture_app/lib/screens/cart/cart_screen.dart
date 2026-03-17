@@ -90,7 +90,7 @@ class _CartScreenState extends State<CartScreen> {
                                     : Container(
                                       width: 80,
                                       height: 80,
-                                      color: AppTheme.border, 
+                                      color: AppTheme.border,
                                       child: const Icon(
                                         Icons.image,
                                         color: AppTheme.grey,
@@ -114,7 +114,7 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 const SizedBox(height: 6),
                                 Text(
-                                  '₹${item.price.toStringAsFixed(0)}',
+                                  'Rs.${item.price.toStringAsFixed(0)}',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -218,7 +218,7 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                           ),
                           Text(
-                            '₹${cart.totalPrice.toStringAsFixed(0)}',
+                            'Rs.${cart.totalPrice.toStringAsFixed(0)}',
                             style: const TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w700,

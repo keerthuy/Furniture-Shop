@@ -30,7 +30,8 @@ class ProductProvider extends ChangeNotifier {
       print('Fetching featured from: ${ApiConfig.productsFeatured}');
       final res = await ApiService.get(ApiConfig.productsFeatured);
       print('Featured response: $res');
-      _featured = (res['data'] as List).map((e) => Product.fromJson(e)).toList();
+      _featured =
+          (res['data'] as List).map((e) => Product.fromJson(e)).toList();
       print('Featured loaded: ${_featured.length} items');
       notifyListeners();
     } catch (e) {
@@ -59,13 +60,16 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      String endpoint = '${ApiConfig.products}?page=$_page&limit=12&sort=$_sortBy';
+      String endpoint =
+          '${ApiConfig.products}?page=$_page&limit=12&sort=$_sortBy';
       if (_searchQuery.isNotEmpty) endpoint += '&search=$_searchQuery';
-      if (_selectedCategory.isNotEmpty) endpoint += '&category=$_selectedCategory';
+      if (_selectedCategory.isNotEmpty)
+        endpoint += '&category=$_selectedCategory';
 
       final res = await ApiService.get(endpoint);
       final data = res['data'];
-      final newProducts = (data['products'] as List).map((e) => Product.fromJson(e)).toList();
+      final newProducts =
+          (data['products'] as List).map((e) => Product.fromJson(e)).toList();
 
       if (loadMore) {
         _products.addAll(newProducts);

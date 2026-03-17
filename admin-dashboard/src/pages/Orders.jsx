@@ -84,7 +84,7 @@ export default function Orders() {
                       <td className="order-id">#{order._id.slice(-6)}</td>
                       <td>{order.userId?.name || 'N/A'}</td>
                       <td>{order.items?.length || 0} items</td>
-                      <td>₹{order.totalPrice?.toLocaleString()}</td>
+                      <td>Rs.{order.totalPrice?.toLocaleString()}</td>
                       <td className="address-cell">{order.deliveryAddress}</td>
                       <td>
                         <span className="status-badge" style={{ background: statusColors[order.status] }}>

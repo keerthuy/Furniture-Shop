@@ -42,18 +42,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 pinned: true,
                 backgroundColor: AppTheme.white,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: p.images.isNotEmpty
-                      ? PageView.builder(
-                          itemCount: p.images.length,
-                          onPageChanged: (i) => setState(() => _currentImage = i),
-                          itemBuilder: (_, i) => CachedNetworkImage(
-                            imageUrl: p.images[i].url,
-                            fit: BoxFit.cover,
-                            placeholder: (_, __) => Container(color: AppTheme.border),
+                  background:
+                      p.images.isNotEmpty
+                          ? PageView.builder(
+                            itemCount: p.images.length,
+                            onPageChanged:
+                                (i) => setState(() => _currentImage = i),
+                            itemBuilder:
+                                (_, i) => CachedNetworkImage(
+                                  imageUrl: p.images[i].url,
+                                  fit: BoxFit.cover,
+                                  placeholder:
+                                      (_, __) =>
+                                          Container(color: AppTheme.border),
+                                ),
+                          )
+                          : Container(
+                            color: AppTheme.border,
+                            child: const Center(
+                              child: Icon(
+                                Icons.image,
+                                size: 60,
+                                color: AppTheme.grey,
+                              ),
+                            ),
                           ),
-                        )
-                      : Container(color: AppTheme.border,
-                          child: const Center(child: Icon(Icons.image, size: 60, color: AppTheme.grey))),
                 ),
               ),
               SliverToBoxAdapter(
@@ -66,66 +79,118 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       if (p.images.length > 1)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(p.images.length, (i) => Container(
-                            width: 8, height: 8,
-                            margin: const EdgeInsets.symmetric(horizontal: 3),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _currentImage == i ? AppTheme.primary : AppTheme.border,
+                          children: List.generate(
+                            p.images.length,
+                            (i) => Container(
+                              width: 8,
+                              height: 8,
+                              margin: const EdgeInsets.symmetric(horizontal: 3),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:
+                                    _currentImage == i
+                                        ? AppTheme.primary
+                                        : AppTheme.border,
+                              ),
                             ),
-                          )),
+                          ),
                         ),
                       const SizedBox(height: 16),
 
                       // Category badge
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: AppTheme.primary.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text(p.category, style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.primary)),
+                        child: Text(
+                          p.category,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.primary,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 12),
 
                       // Name & Price
-                      Text(p.name, style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.w700, color: AppTheme.dark)),
+                      Text(
+                        p.name,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.dark,
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Text('₹${p.price.toStringAsFixed(0)}', style: const TextStyle(
-                        fontSize: 28, fontWeight: FontWeight.w700, color: AppTheme.primary)),
+                      Text(
+                        'Rs.${p.price.toStringAsFixed(0)}',
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.primary,
+                        ),
+                      ),
                       const SizedBox(height: 4),
                       Text(
                         p.stock > 0 ? '${p.stock} in stock' : 'Out of stock',
                         style: TextStyle(
                           fontSize: 14,
-                          color: p.stock > 0 ? AppTheme.success : AppTheme.error,
+                          color:
+                              p.stock > 0 ? AppTheme.success : AppTheme.error,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       if (p.sellerName.isNotEmpty) ...[
                         const SizedBox(height: 8),
-                        Text('Sold by: ${p.sellerName}', style: const TextStyle(
-                          fontSize: 13, color: AppTheme.grey)),
+                        Text(
+                          'Sold by: ${p.sellerName}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: AppTheme.grey,
+                          ),
+                        ),
                       ],
 
                       const Divider(height: 32),
 
                       // Description
-                      const Text('Description', style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w700, color: AppTheme.dark)),
+                      const Text(
+                        'Description',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.dark,
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Text(p.description, style: const TextStyle(
-                        fontSize: 15, color: AppTheme.grey, height: 1.6)),
+                      Text(
+                        p.description,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: AppTheme.grey,
+                          height: 1.6,
+                        ),
+                      ),
 
                       const SizedBox(height: 24),
 
                       // Quantity selector
                       Row(
                         children: [
-                          const Text('Quantity', style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600, color: AppTheme.dark)),
+                          const Text(
+                            'Quantity',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.dark,
+                            ),
+                          ),
                           const Spacer(),
                           Container(
                             decoration: BoxDecoration(
@@ -136,13 +201,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.remove, size: 20),
-                                  onPressed: _quantity > 1 ? () => setState(() => _quantity--) : null,
+                                  onPressed:
+                                      _quantity > 1
+                                          ? () => setState(() => _quantity--)
+                                          : null,
                                 ),
-                                Text('$_quantity', style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600)),
+                                Text(
+                                  '$_quantity',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                                 IconButton(
                                   icon: const Icon(Icons.add, size: 20),
-                                  onPressed: _quantity < p.stock ? () => setState(() => _quantity++) : null,
+                                  onPressed:
+                                      _quantity < p.stock
+                                          ? () => setState(() => _quantity++)
+                                          : null,
                                 ),
                               ],
                             ),
@@ -156,16 +232,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         children: [
                           Expanded(
                             child: OutlinedButton.icon(
-                              onPressed: p.stock > 0 ? () async {
-                                final success = await context.read<CartProvider>()
-                                    .addToCart(p.id, quantity: _quantity);
-                                if (mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text(success ? 'Added to cart!' : 'Failed to add'),
-                                    backgroundColor: success ? AppTheme.success : AppTheme.error,
-                                  ));
-                                }
-                              } : null,
+                              onPressed:
+                                  p.stock > 0
+                                      ? () async {
+                                        final success = await context
+                                            .read<CartProvider>()
+                                            .addToCart(
+                                              p.id,
+                                              quantity: _quantity,
+                                            );
+                                        if (mounted) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                success
+                                                    ? 'Added to cart!'
+                                                    : 'Failed to add',
+                                              ),
+                                              backgroundColor:
+                                                  success
+                                                      ? AppTheme.success
+                                                      : AppTheme.error,
+                                            ),
+                                          );
+                                        }
+                                      }
+                                      : null,
                               icon: const Icon(Icons.shopping_cart_outlined),
                               label: const Text('Add to Cart'),
                             ),
@@ -173,10 +267,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           const SizedBox(width: 12),
                           Expanded(
                             child: ElevatedButton.icon(
-                              onPressed: p.stock > 0 ? () {
-                                context.read<CartProvider>().addToCart(p.id, quantity: _quantity);
-                                Navigator.pushNamed(context, '/cart');
-                              } : null,
+                              onPressed:
+                                  p.stock > 0
+                                      ? () {
+                                        context.read<CartProvider>().addToCart(
+                                          p.id,
+                                          quantity: _quantity,
+                                        );
+                                        Navigator.pushNamed(context, '/cart');
+                                      }
+                                      : null,
                               icon: const Icon(Icons.flash_on),
                               label: const Text('Buy Now'),
                             ),

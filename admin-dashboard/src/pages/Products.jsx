@@ -137,7 +137,7 @@ export default function Products() {
                   </td>
                   <td className="product-name">{p.name}</td>
                   <td><span className="category-badge">{p.category}</span></td>
-                  <td>₹{p.price?.toLocaleString()}</td>
+                  <td>Rs.{p.price?.toLocaleString()}</td>
                   <td>
                     <span className={`stock-badge ${p.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
                       {p.stock}
@@ -176,7 +176,7 @@ export default function Products() {
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Price (₹)</label>
+                  <label>Price (Rs.)</label>
                   <input type="number" min="0" step="0.01" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
                 </div>
                 <div className="form-group">

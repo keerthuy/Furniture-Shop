@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  final _categoryIcons = <String, IconData>{
+  final categoryIcons = <String, IconData>{
     'Living Room': Icons.weekend,
     'Bedroom': Icons.bed,
     'Dining': Icons.dining,
@@ -67,155 +67,161 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // ...header, search, categories...
-
-              // Featured
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Featured',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: AppTheme.dark,
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.dark.withOpacity(0.05),
+                        blurRadius: 8,
                       ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: _searchCtrl,
+                    onChanged: (value) {
+                      context.read<ProductProvider>().setSearch(value);
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search furniture...',
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: AppTheme.grey,
+                      ),
+                      suffixIcon:
+                          _searchCtrl.text.isNotEmpty
+                              ? IconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  _searchCtrl.clear();
+                                  context.read<ProductProvider>().setSearch('');
+                                },
+                              )
+                              : null,
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        context.read<ProductProvider>().clearFilters();
-                        Navigator.pushNamed(context, '/products');
-                      },
-                      child: const Text('See All'),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-              Consumer<ProductProvider>(
-                builder: (_, pp, __) {
-                  print('Featured: ${pp.featured.length}'); // Debug
-                  if (pp.featured.isEmpty) {
-                    return const SizedBox(
-                      height: 200,
-                      child: Center(child: CircularProgressIndicator()),
-                    );
-                  }
-                  return SizedBox(
-                    height: 250,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: pp.featured.length,
-                      itemBuilder: (_, i) {
-                        final p = pp.featured[i];
-                        return GestureDetector(
-                          onTap:
-                              () => Navigator.pushNamed(
-                                context,
-                                '/product-detail',
-                                arguments: p.id,
-                              ),
-                          child: Container(
-                            width: 180,
-                            margin: const EdgeInsets.symmetric(horizontal: 6),
-                            decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppTheme.dark.withOpacity(0.06),
-                                  blurRadius: 10,
-                                ),
-                              ],
+              
+              // Featured Vertical Cards
+Padding(
+  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+  child: Consumer<ProductProvider>(
+    builder: (_, pp, __) {
+      if (pp.featured.isEmpty) {
+        return const SizedBox(
+          height: 200,
+          child: Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      return ListView.separated(
+        physics: const NeverScrollableScrollPhysics(), // For using inside SingleChildScrollView
+        shrinkWrap: true,
+        itemCount: pp.featured.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 16),
+        itemBuilder: (_, i) {
+          final p = pp.featured[i];
+          return GestureDetector(
+            onTap: () => Navigator.pushNamed(
+              context,
+              '/product-detail',
+              arguments: p.id,
+            ),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 4,
+              shadowColor: Colors.black26,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Product Image
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
+                    child: p.imageUrl.isNotEmpty
+                        ? CachedNetworkImage(
+                            imageUrl: p.imageUrl,
+                            height: 180,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            placeholder: (_, __) => Container(
+                              height: 180,
+                              color: AppTheme.border,
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(16),
-                                  ),
-                                  child:
-                                      p.imageUrl.isNotEmpty
-                                          ? CachedNetworkImage(
-                                            imageUrl: p.imageUrl,
-                                            height: 140,
-                                            width: 180,
-                                            fit: BoxFit.cover,
-                                            placeholder:
-                                                (_, __) => Container(
-                                                  height: 140,
-                                                  color: AppTheme.border,
-                                                ),
-                                          )
-                                          : Container(
-                                            height: 140,
-                                            color: AppTheme.border,
-                                            child: const Icon(
-                                              Icons.image,
-                                              size: 40,
-                                              color: AppTheme.grey,
-                                            ),
-                                          ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        p.name,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: AppTheme.dark,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '₹${p.price.toStringAsFixed(0)}',
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                              color: AppTheme.primary,
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: const EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                              color: AppTheme.primary,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: const Icon(
-                                              Icons.add,
-                                              color: Colors.white,
-                                              size: 18,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                          )
+                        : Container(
+                            height: 180,
+                            color: AppTheme.border,
+                            child: const Icon(
+                              Icons.image,
+                              size: 40,
+                              color: AppTheme.grey,
                             ),
                           ),
-                        );
-                      },
+                  ),
+                  // Product Info
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          p.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.dark,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Rs.${p.price.toStringAsFixed(0)}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.primary,
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: AppTheme.primary,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
-              const SizedBox(height: 24),
+            ),
+          );
+        },
+      );
+    },
+  ),
+),
             ],
           ),
         ),

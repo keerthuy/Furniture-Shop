@@ -60,7 +60,7 @@ export default function Dashboard() {
         <div className="stat-card">
           <div className="stat-icon" style={{ background: '#27ae60' }}><FiDollarSign /></div>
           <div className="stat-info">
-            <span className="stat-value">₹{stats?.totalRevenue?.toLocaleString() || 0}</span>
+            <span className="stat-value">Rs.{stats?.totalRevenue?.toLocaleString() || 0}</span>
             <span className="stat-label">Revenue</span>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function Dashboard() {
                   <tr key={order._id}>
                     <td className="order-id">#{order._id.slice(-6)}</td>
                     <td>{order.userId?.name || 'N/A'}</td>
-                    <td>₹{order.totalPrice?.toLocaleString()}</td>
+                    <td>Rs.{order.totalPrice?.toLocaleString()}</td>
                     <td>
                       <span className="status-badge" style={{ background: statusColors[order.status] }}>
                         {order.status}
