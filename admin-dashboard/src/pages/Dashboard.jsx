@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 import { FiPackage, FiShoppingCart, FiUsers, FiDollarSign, FiTrendingUp } from 'react-icons/fi';
-
+import { FiCreditCard } from 'react-icons/fi';
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -58,7 +58,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon" style={{ background: '#27ae60' }}><FiDollarSign /></div>
+          <div className="stat-icon" style={{ background: '#27ae60' }}><FiCreditCard /></div>
           <div className="stat-info">
             <span className="stat-value">Rs.{stats?.totalRevenue?.toLocaleString() || 0}</span>
             <span className="stat-label">Revenue</span>
