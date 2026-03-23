@@ -63,8 +63,9 @@ class ProductProvider extends ChangeNotifier {
       String endpoint =
           '${ApiConfig.products}?page=$_page&limit=12&sort=$_sortBy';
       if (_searchQuery.isNotEmpty) endpoint += '&search=$_searchQuery';
-      if (_selectedCategory.isNotEmpty)
+      if (_selectedCategory.isNotEmpty) {
         endpoint += '&category=$_selectedCategory';
+      }
 
       final res = await ApiService.get(endpoint);
       final data = res['data'];

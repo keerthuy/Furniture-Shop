@@ -61,8 +61,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       appBar: AppBar(title: const Text('My Orders')),
       body: Consumer<OrderProvider>(
         builder: (_, op, __) {
-          if (op.isLoading)
+          if (op.isLoading) {
             return const Center(child: CircularProgressIndicator());
+          }
           if (op.orders.isEmpty) {
             return Center(
               child: Column(

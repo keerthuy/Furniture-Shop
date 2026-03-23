@@ -27,8 +27,9 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(title: const Text('My Cart')),
       body: Consumer<CartProvider>(
         builder: (_, cart, __) {
-          if (cart.isLoading)
+          if (cart.isLoading) {
             return const Center(child: CircularProgressIndicator());
+          }
           if (cart.items.isEmpty) {
             return Center(
               child: Column(

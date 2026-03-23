@@ -108,31 +108,53 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               
-              // Featured Vertical Cards
-Padding(
-  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-  child: Consumer<ProductProvider>(
-    builder: (_, pp, __) {
-      if (pp.featured.isEmpty) {
-        return const SizedBox(
-          height: 200,
-          child: Center(child: CircularProgressIndicator()),
-        );
-      }
+              // Featured or Search Results Vertical Cards
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: Consumer<ProductProvider>(
+                  builder: (_, pp, __) {
+                    final isSearching = pp.searchQuery.isNotEmpty;
+                    final displayList = isSearching ? pp.products : pp.featured;
 
-      return ListView.separated(
-        physics: const NeverScrollableScrollPhysics(), // For using inside SingleChildScrollView
-        shrinkWrap: true,
-        itemCount: pp.featured.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 16),
-        itemBuilder: (_, i) {
-          final p = pp.featured[i];
-          return GestureDetector(
-            onTap: () => Navigator.pushNamed(
-              context,
-              '/product-detail',
-              arguments: p.id,
-            ),
+                    if (isSearching && pp.isLoading && pp.products.isEmpty) {
+                      return const SizedBox(
+                        height: 200,
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+
+                    if (displayList.isEmpty) {
+                      if (!isSearching && pp.featured.isEmpty) {
+                        return const SizedBox(
+                          height: 200,
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      } else if (isSearching) {
+                        return const SizedBox(
+                          height: 200,
+                          child: Center(
+                            child: Text(
+                              'No products found',
+                              style: TextStyle(color: AppTheme.grey),
+                            ),
+                          ),
+                        );
+                      }
+                    }
+
+                    return ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(), // For using inside SingleChildScrollView
+                      shrinkWrap: true,
+                      itemCount: displayList.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 16),
+                      itemBuilder: (_, i) {
+                        final p = displayList[i];
+                        return GestureDetector(
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            '/product-detail',
+                            arguments: p.id,
+                          ),
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
